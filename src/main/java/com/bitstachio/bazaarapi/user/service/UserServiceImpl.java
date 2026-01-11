@@ -4,6 +4,7 @@ import com.bitstachio.bazaarapi.user.domain.User;
 import com.bitstachio.bazaarapi.user.dto.UserCreateRequest;
 import com.bitstachio.bazaarapi.user.dto.UserResponse;
 import com.bitstachio.bazaarapi.user.dto.UserUpdateRequest;
+import com.bitstachio.bazaarapi.user.exception.UserNotFoundException;
 import com.bitstachio.bazaarapi.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(id)
                 .map(this::toResponse)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
@@ -41,10 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse update(UUID id, UserUpdateRequest request) {
-        var user =
-                userRepository
-                        .findById(id)
-                        .orElseThrow(() -> new RuntimeException("User not found"));
+        var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         user.setName(request.getName());
         user.setEmail(request.getEmail());
