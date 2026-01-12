@@ -261,10 +261,10 @@ public class UserController {
 
 ### Base Exception Classes
 
-Base exceptions in the global exception package map to HTTP status codes:
+Abstract base exceptions in the global exception package map to HTTP status codes:
 
-- `ResourceNotFoundException` → 404 Not Found
 - `BadRequestException` → 400 Bad Request
+- `ResourceNotFoundException` → 404 Not Found
 - More exceptions to be added in the future...
 
 The global exception handler catches these base exceptions and automatically returns the appropriate HTTP status code.
@@ -301,7 +301,7 @@ public class UserNotFoundException extends ResourceNotFoundException {
 }
 ```
 
-## Error Response Format
+### Error Response Format
 
 All errors return a consistent JSON structure:
 
